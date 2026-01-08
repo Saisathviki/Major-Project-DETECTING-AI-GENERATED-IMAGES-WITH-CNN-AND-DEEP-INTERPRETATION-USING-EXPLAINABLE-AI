@@ -1,4 +1,4 @@
-\# Detecting AI-Generated Images with CNN and Deep Interpretation using Explainable AI
+
 
 \# Detecting AI-Generated Images with CNN and Deep Interpretation using Explainable AI
 
