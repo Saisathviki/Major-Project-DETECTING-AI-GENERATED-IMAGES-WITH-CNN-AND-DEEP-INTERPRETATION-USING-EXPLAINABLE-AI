@@ -1,0 +1,30 @@
+{% extends "core/base.html" %}
+{% block title %}My Uploads{% endblock %}
+{% block content %}
+<h2 class="mb-3">My uploads</h2>
+<div class="row row-cols-1 row-cols-md-3 g-3">
+  {% for img in images %}
+    <div class="col">
+      <div class="card h-100 shadow-sm">
+        <img src="{{ img.image.url }}" class="card-img-top" alt="{{ img.original_filename }}">
+        <div class="card-body">
+          <h6 class="card-title text-truncate">{{ img.original_filename }}</h6>
+          <p class="card-text small mb-1">
+            Uploaded: {{ img.created_at|date:"Y-m-d H:i" }}
+          </p>
+          <p class="card-text small">
+            Status:
+            {% if img.processed %}
+              <span class="badge bg-success">Processed</span>
+            {% else %}
+              <span class="badge bg-secondary">Pending</span>
+            {% endif %}
+          </p>
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <p>No uploads yet.</p>
+  {% endfor %}
+</div>
+{% endblock %}

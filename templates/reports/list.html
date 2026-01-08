@@ -1,0 +1,43 @@
+{% extends "core/base.html" %}
+{% block title %}Detection Reports{% endblock %}
+{% block content %}
+<h2 class="mb-3">Detection reports</h2>
+<table class="table table-hover table-sm bg-transparent align-middle shadow-sm">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Image</th>
+      <th>Prediction</th>
+      <th>Confidence</th>
+      <th>Created</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for det in detections %}
+      <tr>
+        <td>{{ det.id }}</td>
+        <td>
+          <img src="{{ det.upload.image.url }}" alt="" style="height:50px;border-radius:4px;">
+        </td>
+        <td>
+          {% if det.is_real %}
+            <span class="badge bg-success">Real</span>
+          {% else %}
+            <span class="badge bg-danger">AI-generated</span>
+          {% endif %}
+        </td>
+        <td>{{ det.confidence|floatformat:0 }}%</td>
+        <td>{{ det.created_at|date:"Y-m-d H:i" }}</td>
+        <td>
+          <a href="{% url 'reports:detail' det.id %}" class="btn btn-sm btn-primary">
+            View
+          </a>
+        </td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="6">No detections yet.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

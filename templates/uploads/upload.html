@@ -1,0 +1,50 @@
+{% extends "core/base.html" %}
+{% block title %}Upload Images{% endblock %}
+{% block content %}
+  <div class="mb-4">
+  <h2 class="mb-1">Upload images</h2>
+  <p class="mb-0 text-light">
+    Upload single or multiple images to detect AI‑generated content.
+  </p>
+</div>
+
+<div class="row g-4">
+  <div class="col-md-6">
+    <div class="card shadow-sm h-100">
+      <div class="card-body">
+        <h5 class="card-title mb-3">Single image upload</h5>
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          {{ single_form.non_field_errors }}
+          <div class="mb-3">
+            <label class="form-label">Choose image</label>
+            {{ single_form.image }}
+          </div>
+          <button type="submit" name="single-submit" class="btn btn-primary">
+            Upload &amp; detect
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="card shadow-sm h-100">
+      <div class="card-body">
+        <h5 class="card-title mb-3">Batch upload</h5>
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          {{ multi_form.non_field_errors }}
+          <div class="mb-3">
+            <label class="form-label">Choose multiple images</label>
+            {{ multi_form.images }}
+          </div>
+          <button type="submit" name="multi-submit" class="btn btn-outline-primary">
+            Upload batch &amp; run detection
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

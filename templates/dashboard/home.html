@@ -1,0 +1,69 @@
+{% extends "core/base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="mb-4">
+  <h2 class="mb-1">AI Image Detection Dashboard</h2>
+  <p class="text-light mb-0">
+    Upload images, detect AI‑generated content, and explore model explanations.
+  </p>
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-md-4">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <div class="stat-label text-light">Total uploads</div>
+        <div class="stat-value">{{ total_uploads }}</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <div class="stat-label text-light">Total detections</div>
+        <div class="stat-value">{{ total_detections }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h5 class="mb-3 text-light">Recent detections</h5>
+<table class="table table-hover table-sm bg-transparent align-middle shadow-sm">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Preview</th>
+      <th>Prediction</th>
+      <th>Confidence</th>
+      <th>Created</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for det in latest %}
+      <tr>
+        <td>{{ det.id }}</td>
+        <td>
+          <img src="{{ det.upload.image.url }}" style="height:45px;border-radius:4px;" alt="">
+        </td>
+        <td>
+          {% if det.is_real %}
+            <span class="badge bg-success">Real</span>
+          {% else %}
+            <span class="badge bg-danger">AI-generated</span>
+          {% endif %}
+        </td>
+        <td>{{ det.confidence|floatformat:2 }}</td>
+        <td>{{ det.created_at|date:"Y-m-d H:i" }}</td>
+        <td>
+          <a href="{% url 'reports:detail' det.id %}" class="btn btn-sm btn-primary">
+            View
+          </a>
+        </td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="6">No detections yet.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
